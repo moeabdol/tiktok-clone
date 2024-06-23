@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/clerk-expo": "^1.2.2",
+    "@supabase/supabase-js": "^2.43.5",
     "expo": "~51.0.14",
     "expo-av": "~14.0.5",
     "expo-font": "~12.0.7",

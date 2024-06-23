@@ -4,6 +4,7 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import useWarmUpBrowser from '../../hooks/useWarmUpBroswer';
+import { supabase } from '../../Utils/SupabaseConfig';
 import styles from './styles';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -13,9 +14,24 @@ function Login() {
 	const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' });
 
 	const onPress = useCallback(async () => {
-		const { createdSessionId, setActive } = await startOAuthFlow();
+		const { createdSessionId, setActive, signUp } = await startOAuthFlow();
+
 		if (createdSessionId) {
 			setActive!({ session: createdSessionId });
+
+			if (signUp) {
+				await supabase
+					.from('users')
+					.insert([
+						{
+							username: signUp.username ?? signUp.emailAddress?.split('@')[0],
+							email: signUp.emailAddress,
+							firstName: signUp.firstName,
+							lastName: signUp.lastName,
+						},
+					])
+					.select();
+			}
 		} else {
 			// Use signIn or signUp for next steps such as MFA
 		}
