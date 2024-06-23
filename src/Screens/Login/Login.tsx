@@ -1,9 +1,26 @@
+import { useOAuth } from '@clerk/clerk-expo';
 import { ResizeMode, Video } from 'expo-av';
-import React from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import React, { useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
+import useWarmUpBrowser from '../../hooks/useWarmUpBroswer';
 import styles from './styles';
 
+WebBrowser.maybeCompleteAuthSession();
+
 function Login() {
+	useWarmUpBrowser();
+	const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' });
+
+	const onPress = useCallback(async () => {
+		const { createdSessionId, setActive } = await startOAuthFlow();
+		if (createdSessionId) {
+			setActive!({ session: createdSessionId });
+		} else {
+			// Use signIn or signUp for next steps such as MFA
+		}
+	}, []);
+
 	return (
 		<View style={{ flex: 1 }}>
 			<Video
@@ -20,10 +37,7 @@ function Login() {
 				<Text style={styles.subHeader}>
 					The Ultimate Place to Share your Short Videos with a Great Community
 				</Text>
-				<TouchableOpacity
-					style={styles.loginButton}
-					onPress={() => console.log('pressed')}
-				>
+				<TouchableOpacity style={styles.loginButton} onPress={onPress}>
 					<Image
 						style={styles.googleLogo}
 						source={require('../../../assets/images/google.png')}

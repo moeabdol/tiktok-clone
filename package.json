@@ -9,12 +9,14 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@clerk/clerk-expo": "^1.2.2",
     "expo": "~51.0.14",
+    "expo-av": "~14.0.5",
     "expo-font": "~12.0.7",
     "expo-status-bar": "~1.12.1",
+    "expo-web-browser": "^13.0.3",
     "react": "18.2.0",
-    "react-native": "0.74.2",
-    "expo-av": "~14.0.5"
+    "react-native": "0.74.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,7 +1,22 @@
+import {
+	ClerkLoaded,
+	ClerkProvider,
+	SignedIn,
+	SignedOut,
+} from '@clerk/clerk-expo';
 import { useFonts } from 'expo-font';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import Home from './src/Screens/Home';
 import Login from './src/Screens/Login';
+
+const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!;
+
+if (!publishableKey) {
+	throw new Error(
+		'Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env'
+	);
+}
 
 export default function App() {
 	const [fontsLoaded, fontError] = useFonts({
@@ -13,9 +28,18 @@ export default function App() {
 	if (!fontsLoaded && !fontError) return null;
 
 	return (
-		<View style={styles.container}>
-			<Login />
-		</View>
+		<ClerkProvider publishableKey={publishableKey}>
+			<ClerkLoaded>
+				<SafeAreaView style={styles.container}>
+					<SignedIn>
+						<Home />
+					</SignedIn>
+					<SignedOut>
+						<Login />
+					</SignedOut>
+				</SafeAreaView>
+			</ClerkLoaded>
+		</ClerkProvider>
 	);
 }
 
