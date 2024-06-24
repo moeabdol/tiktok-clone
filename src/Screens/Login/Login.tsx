@@ -3,7 +3,7 @@ import { ResizeMode, Video } from 'expo-av';
 import * as WebBrowser from 'expo-web-browser';
 import React, { useCallback } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import useWarmUpBrowser from '../../hooks/useWarmUpBroswer';
+import useWarmUpBrowser from '../../Hooks/useWarmUpBroswer';
 import { supabase } from '../../Utils/SupabaseConfig';
 import styles from './styles';
 
