@@ -2,10 +2,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Colors from '../Constants/Colors';
-import Add from '../Screens/Add';
 import Home from '../Screens/Home';
 import Profile from '../Screens/Profile';
 import Search from '../Screens/Search';
+import AddStackNavigation from './AddStackNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +37,7 @@ function TabNavigation() {
 			/>
 			<Tab.Screen
 				name="Add"
-				component={Add}
+				component={AddStackNavigation}
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<Ionicons name="add-circle" size={size} color={color} />

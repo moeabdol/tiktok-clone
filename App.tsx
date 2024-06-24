@@ -8,6 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import 'react-native-gesture-handler';
 import TabNavigation from './src/Navigations/TabNavigation';
 import Login from './src/Screens/Login';
 

@@ -1,15 +1,19 @@
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import * as VideoThumbnails from 'expo-video-thumbnails';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
+import type AddStackParamList from '../../../types/addStackParamList.d';
 import styles from './styles';
 
 function Add() {
+	const navigation = useNavigation<StackNavigationProp<AddStackParamList>>();
 	const [video, setVideo] = useState<string>();
 	const [thumbnail, setThumbnail] = useState<string>();
 
-	const generateThumbnail = async () => {
-		const { uri } = await VideoThumbnails.getThumbnailAsync(video!, {
+	const generateThumbnail = async (videoUri: string) => {
+		const { uri } = await VideoThumbnails.getThumbnailAsync(videoUri, {
 			time: 15000,
 		});
 		setThumbnail(uri);
@@ -24,10 +28,20 @@ function Add() {
 		});
 
 		if (!result.canceled) {
-			setVideo(result.assets[0].uri);
-			generateThumbnail();
+			const video = result.assets[0].uri;
+			setVideo(video);
+			generateThumbnail(video);
 		}
 	};
+
+	useEffect(() => {
+		video &&
+			thumbnail &&
+			navigation.navigate('Preview', {
+				video,
+				thumbnail,
+			});
+	}, [video, thumbnail]);
 
 	return (
 		<View style={styles.container}>
